@@ -1,0 +1,16 @@
+/* Header */
+.header-nav a {
+  padding: 8px;
+}
+
+/* Main */
+.card-container {
+  display: flex;
+  padding: 50px;
+}
+
+/* Card */
+.card {
+  width: 30%;
+  padding: 30px;
+}
