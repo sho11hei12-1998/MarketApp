@@ -1,11 +1,17 @@
+@charset "utf-8";
+
 /* Header */
 .header-nav a {
   padding: 8px;
 }
 
 /* Main */
+.main-wrapper {
+  max-width: 1500px;
+}
+
 .card-container {
-  display: flex;
+  width: 100%;
   padding: 50px;
 }
 
@@ -13,4 +19,8 @@
 .card {
   width: 30%;
   padding: 30px;
+}
+
+.card img {
+  max-width: 300px;
 }

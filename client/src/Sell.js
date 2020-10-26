@@ -2,18 +2,27 @@ import React from "react";
 import MarketApp from "./MarketApp.json";
 import getWeb3 from "./getWeb3";
 
+import { Button } from "react-bootstrap"; // 
+import "bootstrap/dist/css/bootstrap.min.css"; // 
+
 class Sell extends React.Component {
-  state = {
-    web3: null,
-    accounts: null,
-    contract: null,
-    itemName: null,
-    description: null,
-    price: null,
-    googleDocID: null,
-    ipfsHash: "",
-    address: "",
-  };
+
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      web3: null,
+      accounts: null,
+      contract: null,
+      itemName: null,
+      description: null,
+      price: null,
+      googleDocID: "",
+      file: "",
+      ipfsHash: "",
+      address: "",
+    };
+  }
 
   componentDidMount = async () => {
     try {
@@ -56,8 +65,10 @@ class Sell extends React.Component {
     console.log(result);
 
     if (result.status === true) {
-      alert("記録が完了しました");
+      alert("出品が完了しました");
     }
+    // トランザクション完了後、ページリロード
+    document.location.reload()
   };
 
   handleChange = (name) => (event) => {
@@ -114,9 +125,9 @@ class Sell extends React.Component {
 
         {/* 出品するコントラクトを呼び出すボタンを配置する */}
         <p>
-          <button onClick={this.sellItem} className="btn btn-default">
+          <Button variant="primary" onClick={this.sellItem} className="btn btn-default">
             出品
-          </button>
+          </Button>
         </p>
       </div>
     );

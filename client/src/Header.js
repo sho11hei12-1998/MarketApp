@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Route, Link } from "react-router-dom";
+import { HashRouter, Route, Link, Switch } from "react-router-dom";
 
 import Main from "./Main";
 import Sell from "./Sell";
@@ -7,6 +7,9 @@ import Resister from "./Resister";
 import Info from "./Info";
 
 class Header extends React.Component {
+  page_transition() {
+    document.location.reload()
+  }
   render() {
     return (
       <div className="header">
@@ -14,17 +17,17 @@ class Header extends React.Component {
           <h1>BcMarket</h1>
         </div>
 
-        <BrowserRouter>
+        <HashRouter>
           <div className="header-nav">
-            <ul>
+            <ul onClick={this.page_transition}>
               <li>
-                <Link to="/">ホーム</Link>
+                <Link to="/home">ホーム</Link>
               </li>
               <li>
                 <Link to="/sell">出品する</Link>
               </li>
               <li>
-                <Link to="/resister">会員登録</Link>
+                <Link to="/resister">新規会員登録</Link>
               </li>
               <li>
                 <Link to="/info">会員情報検索</Link>
@@ -33,12 +36,14 @@ class Header extends React.Component {
 
             <hr />
 
-            <Route exact path="/" component={Main} />
-            <Route path="/sell" component={Sell} />
-            <Route path="/resister" component={Resister} />
-            <Route path="/info" component={Info} />
+            <Switch>
+              <Route exact path="/home" component={Main} />
+              <Route path="/sell" component={Sell} />
+              <Route path="/resister" component={Resister} />
+              <Route path="/info" component={Info} />
+            </Switch>
           </div>
-        </BrowserRouter>
+        </HashRouter>
       </div>
     );
   }

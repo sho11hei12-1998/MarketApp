@@ -2,17 +2,28 @@ import React from "react";
 import MarketApp from "./MarketApp.json";
 import getWeb3 from "./getWeb3";
 
+import { Button } from "react-bootstrap"; // 
+import "bootstrap/dist/css/bootstrap.min.css"; // 
+
 class Info extends React.Component {
-  state = {
-    web3: null,
-    accounts: null,
-    contract: null,
-    name: null,
-    email: null,
-    address: "",
-    outputName: null,
-    outputEmail: null,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      web3: null,
+      accounts: null,
+      contract: null,
+      name: null,
+      email: null,
+      address: "",
+      outputName: null,
+      outputEmail: null,
+      outputNumTransactions: 0,
+      outputReputations: 0,
+      outputNumSell: 0,
+      outputNumBuy: 0,
+    };
+  }
+
   componentDidMount = async () => {
     try {
       const web3 = await getWeb3();
@@ -34,27 +45,23 @@ class Info extends React.Component {
     }
   };
 
-  // アカウント情報の登録
-  writeRecord = async () => {
-    const { accounts, contract, name, email } = this.state;
-    const result = await contract.methods.registerAccount(name, email).send({
-      from: accounts[0],
-    });
-    console.log(result);
-
-    if (result.status === true) {
-      alert("記録が完了しました");
-    }
-  };
-
   // アカウント情報の読み込み
   viewRecord = async () => {
     const { contract, address } = this.state;
-    const result = await contract.methods.viewAccount(address).call();
-    console.log(result);
-    const outputName = result[0];
-    const outputEmail = result[1];
+    console.log(contract);
+
+    const result1 = await contract.methods.viewAccount(address).call();
+    const result2 = await contract.methods.viewAccount_Transaction(address).call();
+    console.log(result1);
+    console.log(result2);
+    const outputName = result1[0];
+    const outputEmail = result1[1];
+    const outputNumTransactions = result2[0];
+    const outputReputations = result2[1];
+    const outputNumSell = result2[2];
+    const outputNumBuy = result2[3];
     this.setState({ outputName, outputEmail });
+    this.setState({ outputNumTransactions, outputReputations, outputNumSell, outputNumBuy });
   };
 
   handleChange = (name) => (event) => {
@@ -64,21 +71,11 @@ class Info extends React.Component {
   render() {
     return (
       <div className="Info">
-        <input onChange={this.handleChange("name")} placeholder="Nameを入力" />
-        <input
-          onChange={this.handleChange("email")}
-          placeholder="Emailを入力"
-        />
-        <button onClick={this.writeRecord}>記録</button>
-
-        <br />
-        <br />
-
         <input
           onChange={this.handleChange("address")}
           placeholder="addressを入力"
         />
-        <button onClick={this.viewRecord}>閲覧</button>
+        <Button variant="primary" onClick={this.viewRecord}>閲覧</Button>
 
         <br />
         <br />
@@ -87,8 +84,12 @@ class Info extends React.Component {
         {this.state.outputEmail ? (
           <p>Email: {this.state.outputEmail}</p>
         ) : (
-          <p></p>
-        )}
+            <p></p>
+          )}
+        {this.state.outputNumTransactions ? <p>取引回数: {this.state.outputNumTransactions}</p> : <p></p>}
+        {this.state.outputReputations ? <p>評価: {this.state.outputReputations}</p> : <p></p>}
+        {this.state.outputNumSell ? <p>出品回数: {this.state.outputNumSell}</p> : <p></p>}
+        {this.state.outputNumBuy ? <p>購入回数: {this.state.outputNumBuy}</p> : <p></p>}
       </div>
     );
   }

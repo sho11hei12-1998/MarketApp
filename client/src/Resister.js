@@ -2,17 +2,26 @@ import React from "react";
 import MarketApp from "./MarketApp.json";
 import getWeb3 from "./getWeb3";
 
+import { Button } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
+
 class Resister extends React.Component {
-  state = {
-    web3: null,
-    accounts: null,
-    contract: null,
-    name: null,
-    email: null,
-    address: "",
-    outputName: null,
-    outputEmail: null,
-  };
+
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      web3: null,
+      accounts: null,
+      contract: null,
+      name: null,
+      email: null,
+      address: "",
+      outputName: null,
+      outputEmail: null,
+    };
+  }
+
   componentDidMount = async () => {
     try {
       const web3 = await getWeb3();
@@ -43,18 +52,10 @@ class Resister extends React.Component {
     console.log(result);
 
     if (result.status === true) {
-      alert("記録が完了しました");
+      alert("会員登録が完了しました");
     }
-  };
-
-  // アカウント情報の読み込み
-  viewRecord = async () => {
-    const { contract, address } = this.state;
-    const result = await contract.methods.viewAccount(address).call();
-    console.log(result);
-    const outputName = result[0];
-    const outputEmail = result[1];
-    this.setState({ outputName, outputEmail });
+    // トランザクション完了後、ページリロード
+    window.location.reload();
   };
 
   handleChange = (name) => (event) => {
@@ -69,26 +70,7 @@ class Resister extends React.Component {
           onChange={this.handleChange("email")}
           placeholder="Emailを入力"
         />
-        <button onClick={this.writeRecord}>記録</button>
-
-        <br />
-        <br />
-
-        <input
-          onChange={this.handleChange("address")}
-          placeholder="addressを入力"
-        />
-        <button onClick={this.viewRecord}>閲覧</button>
-
-        <br />
-        <br />
-
-        {this.state.outputName ? <p>Name: {this.state.outputName}</p> : <p></p>}
-        {this.state.outputEmail ? (
-          <p>Email: {this.state.outputEmail}</p>
-        ) : (
-          <p></p>
-        )}
+        <Button variant="primary" onClick={this.writeRecord}>会員登録</Button>
       </div>
     );
   }
