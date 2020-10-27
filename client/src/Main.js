@@ -1,9 +1,9 @@
 import React from "react";
 import MarketApp from "./MarketApp.json";
 import getWeb3 from "./getWeb3";
-import Card from "./Card";
+import ItemCard from "./ItemCard";
 
-import { Button } from "react-bootstrap"; // 
+import { CardDeck } from "react-bootstrap"; // 
 import "bootstrap/dist/css/bootstrap.min.css"; // 
 
 class Main extends React.Component {
@@ -243,7 +243,7 @@ class Main extends React.Component {
 
       // .mapで展開された数だけ、Cardコンポーネントを呼び出す
       return (
-        <Card
+        <ItemCard
           {...block}
           key={i}
           image={this.state.lines[i].image[0]}
@@ -277,11 +277,14 @@ class Main extends React.Component {
     });
 
     return (
-      <div className="main-wrapper">
-        <div className="card-container">
-          {/* カード代入 */}
-          {card}
+      <div id="main-wrapper">
+        <div id="card-container">
+          <CardDeck className="justify-content-center">
+            {/* カード代入 */}
+            {card}
+          </CardDeck>
         </div>
+
       </div>
     );
   }

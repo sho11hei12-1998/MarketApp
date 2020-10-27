@@ -1,26 +1,37 @@
 @charset "utf-8";
 
 /* Header */
-.header-nav a {
-  padding: 8px;
-}
+
 
 /* Main */
-.main-wrapper {
-  max-width: 1500px;
-}
 
-.card-container {
+
+/* .card-container {
   width: 100%;
   padding: 50px;
-}
+} */
 
 /* Card */
-.card {
+/* .card {
   width: 30%;
   padding: 30px;
+} */
+
+/* .card img {
+  max-width: 300px;
+} */
+
+/* Sell */
+#Sell {
+  padding: 100px;
 }
 
-.card img {
-  max-width: 300px;
+/* Resister */
+#Resister {
+  padding: 100px;
+}
+
+/* Info */
+#Info {
+  padding: 100px;
 }

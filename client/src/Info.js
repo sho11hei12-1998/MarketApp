@@ -2,7 +2,7 @@ import React from "react";
 import MarketApp from "./MarketApp.json";
 import getWeb3 from "./getWeb3";
 
-import { Button } from "react-bootstrap"; // 
+import { Button, Form } from "react-bootstrap"; // 
 import "bootstrap/dist/css/bootstrap.min.css"; // 
 
 class Info extends React.Component {
@@ -70,12 +70,17 @@ class Info extends React.Component {
 
   render() {
     return (
-      <div className="Info">
-        <input
-          onChange={this.handleChange("address")}
-          placeholder="addressを入力"
-        />
-        <Button variant="primary" onClick={this.viewRecord}>閲覧</Button>
+      <div id="Info">
+        <Form className="justify-content-center">
+          <Form.Group controlId="formBasicEmail">
+            <Form.Label>検索したいアドレスを入力してください。</Form.Label>
+            <Form.Control onChange={this.handleChange("address")}
+              placeholder="Search" />
+          </Form.Group>
+          <Button variant="primary" type="submit" onClick={this.viewRecord}>
+            閲覧
+          </Button>
+        </Form>
 
         <br />
         <br />
@@ -96,3 +101,5 @@ class Info extends React.Component {
 }
 
 export default Info;
+
+

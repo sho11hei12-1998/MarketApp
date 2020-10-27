@@ -2,7 +2,7 @@ import React from "react";
 import MarketApp from "./MarketApp.json";
 import getWeb3 from "./getWeb3";
 
-import { Button } from "react-bootstrap"; // 
+import { Button, Form, Modal } from "react-bootstrap"; // 
 import "bootstrap/dist/css/bootstrap.min.css"; // 
 
 class Sell extends React.Component {
@@ -21,8 +21,24 @@ class Sell extends React.Component {
       file: "",
       ipfsHash: "",
       address: "",
+
+      // モーダル
+      show: false,
     };
   }
+
+  // モーダル設定
+  handleClose = async () => {
+    await this.setState({ show: false });
+
+    // ページリロード
+    document.location.reload();
+  }
+  handleShow = () => this.setState({ show: true });
+
+  // ページリロード
+  reload = () => document.location.reload();
+
 
   componentDidMount = async () => {
     try {
@@ -65,10 +81,8 @@ class Sell extends React.Component {
     console.log(result);
 
     if (result.status === true) {
-      alert("出品が完了しました");
+      this.handleShow();
     }
-    // トランザクション完了後、ページリロード
-    document.location.reload()
   };
 
   handleChange = (name) => (event) => {
@@ -76,59 +90,59 @@ class Sell extends React.Component {
   };
 
   render() {
+
     return (
-      <div className="Sell">
-        <form className="form-group">
-          <label>商品名を入力して下さい。</label>
-          <br />
-          <input
-            onChange={this.handleChange("itemName")}
-            placeholder="商品名を入力"
-          />
-        </form>
+      <div id="Sell">
+        <Form className="justify-content-center">
+          <Form.Group controlId="exampleForm.ControlInput1">
+            <Form.Label>商品名を入力して下さい。</Form.Label>
+            <Form.Control
+              onChange={this.handleChange("itemName")}
+              placeholder="Product name" />
+          </Form.Group>
 
-        <br />
+          <Form.Group controlId="exampleForm.ControlTextarea1">
+            <Form.Label>商品説明を入力して下さい。</Form.Label>
+            <Form.Control
+              as="textarea"
+              onChange={this.handleChange("description")}
+              placeholder="Description"
+              rows={3} />
+          </Form.Group>
 
-        <form className="form-group">
-          <label>商品説明を入力して下さい。</label>
-          <br />
-          <textarea
-            onChange={this.handleChange("description")}
-            placeholder="商品説明を入力"
-            rows="3"
-          />
-        </form>
+          <Form.Group controlId="exampleForm.ControlInput1">
+            <Form.Label>商品価格（wei）を入力して下さい。</Form.Label>
+            <Form.Control
+              onChange={this.handleChange("price")}
+              placeholder="Price" />
+          </Form.Group>
 
-        <br />
+          <Form.Group controlId="exampleForm.ControlInput1">
+            <Form.Label>Googleドライブにアップロードした商品画像のファイルIDを入力して下さい。</Form.Label>
+            <Form.Control
+              onChange={this.handleChange("googleDocID")}
+              placeholder="File ID"
+            />
+          </Form.Group>
 
-        <form className="form-group">
-          <label>商品価格（wei）を入力して下さい。</label>
-          <br />
-          <input
-            onChange={this.handleChange("price")}
-            placeholder="商品価格を入力"
-          />
-        </form>
-
-        <br />
-
-        <form className="form-group">
-          <label>
-            Googleドライブにアップロードした商品画像のファイルIDを入力して下さい。
-          </label>
-          <br />
-          <input
-            onChange={this.handleChange("googleDocID")}
-            placeholder="ファイルIDを入力"
-          />
-        </form>
-
-        {/* 出品するコントラクトを呼び出すボタンを配置する */}
-        <p>
+          {/* 出品するコントラクトを呼び出すボタンを配置する */}
           <Button variant="primary" onClick={this.sellItem} className="btn btn-default">
             出品
           </Button>
-        </p>
+
+
+          <Modal show={this.state.show} onHide={this.handleClose}>
+            <Modal.Header closeButton>
+              <Modal.Title>Thank you very much!!</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>商品の購入が完了しました。</Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={this.handleClose}>
+                Close
+            </Button>
+            </Modal.Footer>
+          </Modal>
+        </Form>
       </div>
     );
   }

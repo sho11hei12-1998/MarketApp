@@ -2,7 +2,7 @@ import React from "react";
 import MarketApp from "./MarketApp.json";
 import getWeb3 from "./getWeb3";
 
-import { Button } from "react-bootstrap";
+import { Button, Form, Modal } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 class Resister extends React.Component {
@@ -19,8 +19,19 @@ class Resister extends React.Component {
       address: "",
       outputName: null,
       outputEmail: null,
+
+      show: false,
     };
   }
+
+  // モーダル設定
+  handleClose = async () => {
+    await this.setState({ show: false });
+
+    // ページリロード
+    document.location.reload();
+  }
+  handleShow = async () => this.setState({ show: true });
 
   componentDidMount = async () => {
     try {
@@ -52,10 +63,8 @@ class Resister extends React.Component {
     console.log(result);
 
     if (result.status === true) {
-      alert("会員登録が完了しました");
+      this.handleShow();
     }
-    // トランザクション完了後、ページリロード
-    window.location.reload();
   };
 
   handleChange = (name) => (event) => {
@@ -64,16 +73,43 @@ class Resister extends React.Component {
 
   render() {
     return (
-      <div className="Resister">
-        <input onChange={this.handleChange("name")} placeholder="Nameを入力" />
-        <input
-          onChange={this.handleChange("email")}
-          placeholder="Emailを入力"
-        />
-        <Button variant="primary" onClick={this.writeRecord}>会員登録</Button>
+      <div id="Resister">
+        <Form className="justify-content-center">
+          <Form.Group>
+            <Form.Label>Your Name</Form.Label>
+            <Form.Control type="name" onChange={this.handleChange("name")} placeholder="Enter Name" />
+          </Form.Group>
+
+          <Form.Group controlId="formBasicPassword">
+            <Form.Label>Email address</Form.Label>
+            <Form.Control type="email" placeholder="Password" onChange={this.handleChange("email")}
+              placeholder="name@example.com" />
+            <Form.Text className="text-muted">
+              We'll never share your email with anyone else.
+            </Form.Text>
+          </Form.Group>
+
+          <Button variant="primary" type="submit" onClick={this.writeRecord}>
+            会員登録
+          </Button>
+
+          <Modal show={this.state.show} onHide={this.handleClose}>
+            <Modal.Header closeButton>
+              <Modal.Title>Wellcome to BcMarket!!</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>会員登録が完了しました。</Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={this.handleClose}>
+                Close
+            </Button>
+            </Modal.Footer>
+          </Modal>
+        </Form>
       </div>
     );
   }
 }
 
 export default Resister;
+
+
