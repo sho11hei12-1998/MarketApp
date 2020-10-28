@@ -262,15 +262,20 @@ class Main extends React.Component {
 
           // 商品購入ボタンの関数
           buy_button={() => this.buyItem(i, this.state.lines[i].item[5])}
+          buy_button_status={this.state.lines[i].item[6]}
           // 商品発送ボタンの関数
           ship_button={() => this.shipItem(i)}
+          ship_button_status={this.state.lines[i].item[7]}
           // 商品受け取りボタンの関数
           receive_button={() => this.receiveItem(i)}
+          receive_button_status={this.state.lines[i].item[8]}
           // 出品者評価の関数
           sellerEvaluate_button={() => this.seller_Evaluate(i)}
+          sellerEvaluate_button_status={this.state.lines[i].item[9]}
           update_sellerValue={this.update_sellerValue.bind(this)}
           // 購入者評価の関数
           buyerEvaluate_button={() => this.buyer_Evaluate(i)}
+          buyerEvaluate_status={this.state.lines[i].item[10]}
           update_buyerValue={this.update_buyerValue.bind(this)}
         />
       );

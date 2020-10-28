@@ -2,7 +2,7 @@ import React from "react";
 import MarketApp from "./MarketApp.json";
 import getWeb3 from "./getWeb3";
 
-import { Button, Form, Modal } from "react-bootstrap";
+import { Row, Col, Button, Form, Modal } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 class Resister extends React.Component {
@@ -20,7 +20,10 @@ class Resister extends React.Component {
       outputName: null,
       outputEmail: null,
 
+      // モーダル
       show: false,
+      // フォームチェック
+      validated: false,
     };
   }
 
@@ -71,41 +74,80 @@ class Resister extends React.Component {
     this.setState({ [name]: event.target.value });
   };
 
+  // フォーム最終確認
+  handleSubmit = (event) => {
+    const form = event.currentTarget;
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+    this.setState({ validated: true });
+  };
+
   render() {
     return (
       <div id="Resister">
-        <Form className="justify-content-center">
-          <Form.Group>
-            <Form.Label>Your Name</Form.Label>
-            <Form.Control type="name" onChange={this.handleChange("name")} placeholder="Enter Name" />
-          </Form.Group>
+        <Row>
+          <Col md={{ span: 4, offset: 4 }}>
+            <Form className="justify-content-center"
+              noValidate validated={this.state.validated} >
 
-          <Form.Group controlId="formBasicPassword">
-            <Form.Label>Email address</Form.Label>
-            <Form.Control type="email" placeholder="Password" onChange={this.handleChange("email")}
-              placeholder="name@example.com" />
-            <Form.Text className="text-muted">
-              We'll never share your email with anyone else.
-            </Form.Text>
-          </Form.Group>
+              <Form.Group controlId="validationCustom03">
+                <Form.Label>Your Name</Form.Label>
+                <Form.Control
+                  type="name"
+                  onChange={this.handleChange("name")}
+                  placeholder="Enter Name"
+                  required />
+                <Form.Control.Feedback type="invalid">
+                  Please choose name.
+                </Form.Control.Feedback>
+              </Form.Group>
 
-          <Button variant="primary" type="submit" onClick={this.writeRecord}>
-            会員登録
+              <Form.Group controlId="validationCustom03">
+                <Form.Label>Email address</Form.Label>
+                <Form.Control
+                  type="text"
+                  onChange={this.handleChange("email")}
+                  placeholder="name@example.com"
+                  required />
+                <Form.Text className="text-muted">
+                  We'll never share your email with anyone else.
+                </Form.Text>
+                <Form.Control.Feedback type="invalid">
+                  Please choose email.
+                </Form.Control.Feedback>
+              </Form.Group>
+
+              {/* フォームチェック */}
+              <Form.Group>
+                <Form.Check
+                  required
+                  label="Agree to terms and conditions"
+                  feedback="You must agree before submitting."
+                  onChange={this.handleSubmit}
+                />
+              </Form.Group>
+
+              <Button variant="primary" type="submit" onClick={this.writeRecord}>
+                会員登録
           </Button>
 
-          <Modal show={this.state.show} onHide={this.handleClose}>
-            <Modal.Header closeButton>
-              <Modal.Title>Wellcome to BcMarket!!</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>会員登録が完了しました。</Modal.Body>
-            <Modal.Footer>
-              <Button variant="secondary" onClick={this.handleClose}>
-                Close
+              <Modal show={this.state.show} onHide={this.handleClose}>
+                <Modal.Header closeButton>
+                  <Modal.Title>Wellcome to BcMarket!!</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>会員登録が完了しました。</Modal.Body>
+                <Modal.Footer>
+                  <Button variant="secondary" onClick={this.handleClose}>
+                    Close
             </Button>
-            </Modal.Footer>
-          </Modal>
-        </Form>
-      </div>
+                </Modal.Footer>
+              </Modal>
+            </Form>
+          </Col>
+        </Row>
+      </div >
     );
   }
 }

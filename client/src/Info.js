@@ -2,7 +2,7 @@ import React from "react";
 import MarketApp from "./MarketApp.json";
 import getWeb3 from "./getWeb3";
 
-import { Button, Form } from "react-bootstrap"; // 
+import { Row, Col, Button, Form } from "react-bootstrap"; // 
 import "bootstrap/dist/css/bootstrap.min.css"; // 
 
 class Info extends React.Component {
@@ -71,30 +71,34 @@ class Info extends React.Component {
   render() {
     return (
       <div id="Info">
-        <Form className="justify-content-center">
-          <Form.Group controlId="formBasicEmail">
-            <Form.Label>検索したいアドレスを入力してください。</Form.Label>
-            <Form.Control onChange={this.handleChange("address")}
-              placeholder="Search" />
-          </Form.Group>
-          <Button variant="primary" type="submit" onClick={this.viewRecord}>
-            閲覧
+        <Row>
+          <Col md={{ span: 4, offset: 4 }}>
+            <Form className="justify-content-center">
+              <Form.Group controlId="formBasicEmail">
+                <Form.Label>検索したいアドレスを入力してください。</Form.Label>
+                <Form.Control onChange={this.handleChange("address")}
+                  placeholder="Search" />
+              </Form.Group>
+              <Button variant="primary" type="submit" onClick={this.viewRecord}>
+                閲覧
           </Button>
-        </Form>
+            </Form>
 
-        <br />
-        <br />
+            <br />
+            <br />
 
-        {this.state.outputName ? <p>Name: {this.state.outputName}</p> : <p></p>}
-        {this.state.outputEmail ? (
-          <p>Email: {this.state.outputEmail}</p>
-        ) : (
-            <p></p>
-          )}
-        {this.state.outputNumTransactions ? <p>取引回数: {this.state.outputNumTransactions}</p> : <p></p>}
-        {this.state.outputReputations ? <p>評価: {this.state.outputReputations}</p> : <p></p>}
-        {this.state.outputNumSell ? <p>出品回数: {this.state.outputNumSell}</p> : <p></p>}
-        {this.state.outputNumBuy ? <p>購入回数: {this.state.outputNumBuy}</p> : <p></p>}
+            {this.state.outputName ? <p>Name: {this.state.outputName}</p> : <p></p>}
+            {/* {this.state.outputEmail ? (
+              <p>Email: {this.state.outputEmail}</p>
+            ) : (
+                <p></p>
+              )} */}
+            {this.state.outputNumTransactions ? <p>取引回数: {this.state.outputNumTransactions}</p> : <p></p>}
+            {this.state.outputReputations ? <p>評価: {this.state.outputReputations}</p> : <p></p>}
+            {this.state.outputNumSell ? <p>出品回数: {this.state.outputNumSell}</p> : <p></p>}
+            {this.state.outputNumBuy ? <p>購入回数: {this.state.outputNumBuy}</p> : <p></p>}
+          </Col>
+        </Row>
       </div>
     );
   }

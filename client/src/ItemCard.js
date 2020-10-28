@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Form, Card } from "react-bootstrap"; // 
+import { Button, Form, Card, Badge } from "react-bootstrap"; // 
 import "bootstrap/dist/css/bootstrap.min.css"; // 
 
 
@@ -35,6 +35,7 @@ class ItemCard extends React.Component {
   render() {
     return (
       <div id="card_item">
+        <br />
         <Card style={{ width: '25rem' }}>
           <Card.Img
             variant="top"
@@ -45,7 +46,7 @@ class ItemCard extends React.Component {
             <Card.Title>商品名：{this.props.name}</Card.Title>
             <Card.Text>価格：{this.props.price}(wei)</Card.Text>
             <Card.Text>商品説明：{this.props.introduction}</Card.Text>
-            <Card.Text>商品状態：{this.props.goods_status}</Card.Text>
+            <Card.Text>商品状態：<Badge variant="success">{this.props.goods_status}</Badge>{' '}</Card.Text>
             <Card.Text>出品者：{this.props.seller}</Card.Text>
             <Card.Text>出品者のアドレス：{this.props.seller_addr}</Card.Text>
             <Card.Text>購入者のアドレス：{this.props.buyer_addr}</Card.Text>
@@ -56,18 +57,31 @@ class ItemCard extends React.Component {
             <Card.Text>購入者評価：{this.props.buyer_reputate}</Card.Text>
 
             <div id="button-box">
-
-              <Button variant="primary" onClick={this.props.buy_button}>この商品を購入</Button>
+              {/* 購入ボタン */}
+              <Button
+                variant="primary"
+                onClick={this.props.buy_button}
+                disabled={this.props.buy_button_status}>この商品を購入</Button>
               <br />
               <br />
 
+              {/* 発送通知ボタン */}
+              <Button
+                variant="primary"
+                onClick={this.props.ship_button}
+                disabled={this.props.ship_button_status}>発送完了通知</Button>
+              <br />
+              <br />
 
-              <Button variant="primary" onClick={this.props.ship_button}>発送完了通知</Button>
+              {/* 受取完了通知ボタン */}
+              <Button
+                variant="primary"
+                onClick={this.props.receive_button}
+                disabled={this.props.receive_button_status}>受取完了通知</Button>
               <br />
               <br />
-              <Button variant="primary" onClick={this.props.receive_button}>受取完了通知</Button>
-              <br />
-              <br />
+
+
               <Form.Group controlId="exampleForm.ControlSelect1">
                 <Form.Label>出品者を評価して下さい：</Form.Label>
                 <Form.Control as="select" value={this.state.sellerValue} onChange={this.handleChange_1}>
@@ -77,7 +91,11 @@ class ItemCard extends React.Component {
                 </Form.Control>
               </Form.Group>
 
-              <Button variant="primary" onClick={this.props.sellerEvaluate_button}>出品者を評価
+              {/* 出品者の評価ボタン */}
+              <Button
+                variant="primary"
+                onClick={this.props.sellerEvaluate_button}
+                disabled={this.props.sellerEvaluate_button_status}>出品者を評価
               </Button>
               <br />
               <br />
@@ -90,7 +108,10 @@ class ItemCard extends React.Component {
                 </Form.Control>
               </Form.Group>
 
-              <Button variant="primary" onClick={this.props.buyerEvaluate_button}>購入者を評価
+              <Button
+                variant="primary"
+                onClick={this.props.buyerEvaluate_button}
+                disabled={this.props.buyerEvaluate_status}>購入者を評価
           </Button>
 
             </div>
@@ -100,6 +121,8 @@ class ItemCard extends React.Component {
             <small className="text-muted">(仮)Last updated 3 mins ago</small>
           </Card.Footer>
         </Card>
+
+        <br />
       </div >
 
     );
