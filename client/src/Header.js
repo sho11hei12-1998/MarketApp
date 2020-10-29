@@ -17,11 +17,15 @@ class Header extends React.Component {
   render() {
     return (
       <div id="header">
-        <div id="header-logo">
-          <h1 className="text-center mt-4 mb-4">BcMarket</h1>
-        </div>
-
         <HashRouter>
+          <Nav id="header-logo" className="justify-content-center mt-4 mb-4" onClick={this.page_transition}>
+            <Nav.Item>
+              <LinkContainer to="/home">
+                <Nav.Link ><h1 className="text-dark">BcMarket</h1></Nav.Link>
+              </LinkContainer>
+            </Nav.Item>
+          </Nav>
+
           <Nav className="justify-content-center" activeKey="/home" onClick={this.page_transition}>
             <Nav.Item>
               <LinkContainer to="/home">
@@ -44,6 +48,18 @@ class Header extends React.Component {
             <Nav.Item>
               <LinkContainer to="/info">
                 <Nav.Link>会員情報検索</Nav.Link>
+              </LinkContainer>
+            </Nav.Item>
+
+            <Nav.Item>
+              <LinkContainer to="/info">
+                <Nav.Link>やることリスト</Nav.Link>
+              </LinkContainer>
+            </Nav.Item>
+
+            <Nav.Item>
+              <LinkContainer to="/info">
+                <Nav.Link>マイページ</Nav.Link>
               </LinkContainer>
             </Nav.Item>
           </Nav>

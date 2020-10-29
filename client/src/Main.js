@@ -246,6 +246,7 @@ class Main extends React.Component {
         <ItemCard
           {...block}
           key={i}
+          num={Number(i)}
           image={this.state.lines[i].image[0]}
           name={this.state.lines[i].item[3]}
           price={this.state.lines[i].item[5]}

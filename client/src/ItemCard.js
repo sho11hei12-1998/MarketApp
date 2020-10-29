@@ -117,8 +117,8 @@ class ItemCard extends React.Component {
             </div>
           </Card.Body>
 
-          <Card.Footer>
-            <small className="text-muted">(仮)Last updated 3 mins ago</small>
+          <Card.Footer className="text-center">
+            <small className="text-muted">Product No.{this.props.num + 1}</small>
           </Card.Footer>
         </Card>
 

@@ -133,6 +133,7 @@ class Resister extends React.Component {
                 会員登録
           </Button>
 
+              {/* モーダル */}
               <Modal show={this.state.show} onHide={this.handleClose}>
                 <Modal.Header closeButton>
                   <Modal.Title>Wellcome to BcMarket!!</Modal.Title>
@@ -141,7 +142,7 @@ class Resister extends React.Component {
                 <Modal.Footer>
                   <Button variant="secondary" onClick={this.handleClose}>
                     Close
-            </Button>
+                  </Button>
                 </Modal.Footer>
               </Modal>
             </Form>

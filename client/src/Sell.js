@@ -170,9 +170,9 @@ class Sell extends React.Component {
 
               <Modal show={this.state.show} onHide={this.handleClose}>
                 <Modal.Header closeButton>
-                  <Modal.Title>Thank you very much!!</Modal.Title>
+                  <Modal.Title>Completed Transaction!!</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>商品の購入が完了しました。</Modal.Body>
+                <Modal.Body>商品の出品が完了しました。</Modal.Body>
                 <Modal.Footer>
                   <Button variant="secondary" onClick={this.handleClose}>
                     Close
