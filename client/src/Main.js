@@ -7,8 +7,6 @@ import { CardDeck } from "react-bootstrap"; //
 import "bootstrap/dist/css/bootstrap.min.css"; // 
 
 class Main extends React.Component {
-
-
   constructor(props) {
     super(props);
     this.state = {
@@ -188,7 +186,7 @@ class Main extends React.Component {
       var goods_status_text = "";
 
       if (this.state.lines[i].item[11] === true) {
-        goods_status_text = "売切れ";
+        goods_status_text = "売切れ×";
       } else {
         goods_status_text = "出品中";
       }

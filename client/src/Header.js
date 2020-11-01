@@ -5,6 +5,7 @@ import Main from "./Main";
 import Sell from "./Sell";
 import Resister from "./Resister";
 import Info from "./Info";
+import Mypage from "./Mypage";
 
 import { Nav } from "react-bootstrap"; // 
 import "bootstrap/dist/css/bootstrap.min.css"; // 
@@ -58,7 +59,7 @@ class Header extends React.Component {
             </Nav.Item>
 
             <Nav.Item>
-              <LinkContainer to="/info">
+              <LinkContainer to="/mypage">
                 <Nav.Link>マイページ</Nav.Link>
               </LinkContainer>
             </Nav.Item>
@@ -71,6 +72,7 @@ class Header extends React.Component {
             <Route path="/sell" component={Sell} />
             <Route path="/resister" component={Resister} />
             <Route path="/info" component={Info} />
+            <Route path="/mypage" component={Mypage} />
           </Switch>
 
         </HashRouter>
