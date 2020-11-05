@@ -71,8 +71,8 @@ class Info extends React.Component {
   render() {
     return (
       <div id="Info">
-        <Row>
-          <Col md={{ span: 4, offset: 4 }}>
+        <Row className="mx-4">
+          <Col md={{ span: 4, offset: 4 }} xs={{ span: 12 }}>
             <Form className="justify-content-center">
               <Form.Group controlId="formBasicEmail">
                 <Form.Label>検索したいアドレスを入力してください。</Form.Label>

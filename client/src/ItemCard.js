@@ -35,8 +35,7 @@ class ItemCard extends React.Component {
   render() {
     return (
       <div id="card_item">
-        <br />
-        <Card style={{ width: '25rem' }}>
+        <Card className="mt-4" style={{ width: '25rem' }}>
           <Card.Img
             variant="top"
             src={"http://drive.google.com/uc?export=view&id=" + this.props.image}

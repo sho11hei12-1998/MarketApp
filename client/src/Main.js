@@ -46,7 +46,7 @@ class Main extends React.Component {
 
     console.log(accounts);
 
-    // 1.出品されている商品数を取得する
+    // 出品されている商品数を取得する
     var num = await contract.methods.numItems().call();
     this.setState({ _numItems: num });
 

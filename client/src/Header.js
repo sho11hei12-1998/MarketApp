@@ -5,6 +5,7 @@ import Main from "./Main";
 import Sell from "./Sell";
 import Resister from "./Resister";
 import Info from "./Info";
+import GetEth from "./GetEth";
 import Mypage from "./Mypage";
 
 import { Nav } from "react-bootstrap"; // 
@@ -29,8 +30,8 @@ class Header extends React.Component {
 
           <Nav className="justify-content-center" activeKey="/home" onClick={this.page_transition}>
             <Nav.Item>
-              <LinkContainer to="/home">
-                <Nav.Link >ホーム</Nav.Link>
+              <LinkContainer to="/home" eventKey="/home">
+                <Nav.Link href="/home">ホーム</Nav.Link>
               </LinkContainer>
             </Nav.Item>
 
@@ -53,8 +54,8 @@ class Header extends React.Component {
             </Nav.Item>
 
             <Nav.Item>
-              <LinkContainer to="/info">
-                <Nav.Link>やることリスト</Nav.Link>
+              <LinkContainer to="/geteth">
+                <Nav.Link>Eth還元キャンペーン</Nav.Link>
               </LinkContainer>
             </Nav.Item>
 
@@ -72,6 +73,7 @@ class Header extends React.Component {
             <Route path="/sell" component={Sell} />
             <Route path="/resister" component={Resister} />
             <Route path="/info" component={Info} />
+            <Route path="/geteth" component={GetEth} />
             <Route path="/mypage" component={Mypage} />
           </Switch>
 

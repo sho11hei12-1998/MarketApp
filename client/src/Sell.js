@@ -99,8 +99,8 @@ class Sell extends React.Component {
 
     return (
       <div id="Sell">
-        <Row>
-          <Col md={{ span: 4, offset: 4 }}>
+        <Row className="mx-4">
+          <Col md={{ span: 4, offset: 4 }} xs={{ span: 12 }}>
             <Form className="justify-content-center"
               noValidate validated={this.state.validated} >
 
@@ -135,6 +135,13 @@ class Sell extends React.Component {
                   onChange={this.handleChange("price")}
                   placeholder="Price"
                   required />
+                <Form.Text className="text-muted">
+                  ※設定した価格の20%を手数料として頂きます。
+                </Form.Text>
+                <p className="text-danger">
+                  販売利益：{(this.state.price * 4) / 5}(wei)
+                </p>
+
                 <Form.Control.Feedback type="invalid">
                   Please enter price.
                 </Form.Control.Feedback>

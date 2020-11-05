@@ -1,9 +1,9 @@
 import React from "react";
-import { Button, Form, Card, Badge } from "react-bootstrap"; // 
+import { Card, Badge } from "react-bootstrap"; // 
 import "bootstrap/dist/css/bootstrap.min.css"; // 
 
 
-class Simple_ItemCard extends React.Component {
+class SimpleItemCard extends React.Component {
 
   constructor(props) {
     super(props);
@@ -47,4 +47,4 @@ class Simple_ItemCard extends React.Component {
     );
   }
 }
-export default Simple_ItemCard;
+export default SimpleItemCard;

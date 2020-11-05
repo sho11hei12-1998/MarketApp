@@ -1,9 +1,9 @@
 import React from "react";
 import MarketApp from "./MarketApp.json";
 import getWeb3 from "./getWeb3";
-import Simple_ItemCard from "./Simple_ItemCard";
+import SimpleItemCard from "./SimpleItemCard";
 
-import { Row, Col, Card, CardDeck, Badge, Button, Form, Nav, Tabs, Tab } from "react-bootstrap"; // 
+import { Row, Col, CardDeck, Tabs, Tab } from "react-bootstrap"; // 
 import "bootstrap/dist/css/bootstrap.min.css"; // 
 
 class Mypage extends React.Component {
@@ -83,7 +83,7 @@ class Mypage extends React.Component {
 
   render() {
     // 出品した商品を表示させる
-    const card_1 = this.state.lines.map((block, i) => {
+    const card1 = this.state.lines.map((block, i) => {
 
       // 商品状態の確認，true⇒売切れ，false⇒出品中に表示を変更する
       var goods_status_text = "";
@@ -96,7 +96,7 @@ class Mypage extends React.Component {
 
       if (this.state.lines[i].item[0] === this.state.accounts[0]) {
         return (
-          <Simple_ItemCard
+          <SimpleItemCard
             {...block}
             key={i}
             num={Number(i)}
@@ -107,14 +107,16 @@ class Mypage extends React.Component {
             goods_status={goods_status_text}
             seller={this.state.lines[i].item[2]}
             buyer_addr={this.state.lines[i].item[1]}
-
           />
         );
+      }
+      else {
+        return null
       }
     });
 
     // 購入した商品を表示させる
-    const card_2 = this.state.lines.map((block, i) => {
+    const card2 = this.state.lines.map((block, i) => {
 
       // 商品状態の確認，true⇒売切れ，false⇒出品中に表示を変更する
       var goods_status_text = "";
@@ -127,7 +129,7 @@ class Mypage extends React.Component {
 
       if (this.state.lines[i].item[1] === this.state.accounts[0]) {
         return (
-          <Simple_ItemCard
+          <SimpleItemCard
             {...block}
             key={i}
             num={Number(i)}
@@ -142,12 +144,15 @@ class Mypage extends React.Component {
           />
         );
       }
+      else {
+        return null
+      }
     });
 
     return (
-      <div id="Mypage">
+      <div id="Mypage" className="mx-4">
         <Row>
-          <Col md={{ span: 4, offset: 4 }}>
+          <Col md={{ span: 4, offset: 4 }} xs={{ span: 12 }}>
             <p>Name: {this.state.outputName}</p>
             <p>Address: {this.state.accounts}</p>
             <p>取引回数: {this.state.outputNumTransactions}</p>
@@ -161,20 +166,20 @@ class Mypage extends React.Component {
         <Row>
           <Col>
             <Tabs
-              defaultActiveKey="card_1"
+              defaultActiveKey="card1"
               id="uncontrolled-tab-example"
               className="justify-content-center">
 
-              <Tab eventKey="card_1" title="出品した商品">
+              <Tab eventKey="card1" title="出品した商品">
                 <CardDeck className="justify-content-center mt-4">
                   {/* カード代入 */}
-                  {card_1}
+                  {card1}
                 </CardDeck>
               </Tab>
-              <Tab eventKey="card_2" title="購入した商品">
+              <Tab eventKey="card2" title="購入した商品">
                 <CardDeck className="justify-content-center mt-4">
                   {/* カード代入 */}
-                  {card_2}
+                  {card2}
                 </CardDeck>
               </Tab>
             </Tabs>
