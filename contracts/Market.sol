@@ -3,13 +3,17 @@ pragma solidity ^0.5.0;
 contract MarketApp {
     address owner; // コントラクトオーナーのアドレス
     uint256 public numItems; // 商品数
-    bool public stopped; // trueの場合Circuit Breakerが発動し，全てのコントラクトが使用不可能になる
+    bool public stopped; // trueの場合，全てのコントラクトが使用不可能になる
+    uint256 public total_entry; // eth還元キャンペーンに応募した総数
+    uint256 public bonus_eth; // 集まったetherの合計
 
     // コンストラクタ
     constructor() public {
         owner = msg.sender; // コントラクトをデプロイしたアドレスをオーナーに指定する
         numItems = 0;
         stopped = false;
+        total_entry = 0;
+        bonus_eth = 0;
     }
 
     // 呼び出しがコントラクトのオーナーか確認
@@ -37,6 +41,7 @@ contract MarketApp {
         bool resistered; //アカウント未登録:false, 登録済み:true
         int256 numSell; //出品した商品の数
         int256 numBuy; //購入した商品の数
+        bool entryed; // エントリーまだならfalse, 済みならtrue
     }
 
     address[] public users; // ユーザーのアドレス
@@ -46,6 +51,7 @@ contract MarketApp {
     mapping(address => uint256[]) public sellItems;
     mapping(address => uint256[]) public buyItems;
 
+    // アカウントを登録する関数
     function registerAccount(string memory _name, string memory _email)
         public
         returns (bool)
@@ -53,10 +59,21 @@ contract MarketApp {
         //アカウントが登録されていなければ新規会員登録をする
         if (!isUserExist(msg.sender)) {
             accounts[msg.sender].resistered = true;
+            users.push(msg.sender);
         }
         accounts[msg.sender].name = _name;
         accounts[msg.sender].email = _email;
         return true;
+    }
+
+    // アカウントが登録されているかどうかを確認
+    function isUserExist(address user) public view returns (bool) {
+        for (uint256 i = 0; i < users.length; i++) {
+            if (users[i] == user) {
+                return true;
+            }
+        }
+        return false;
     }
 
     // アカウント情報（個人情報）
@@ -88,15 +105,6 @@ contract MarketApp {
         int256 _numBuy = accounts[user].numBuy;
 
         return (_numTransactions, _reputations, _numSell, _numBuy);
-    }
-
-    function isUserExist(address user) public view returns (bool) {
-        for (uint256 i = 0; i < users.length; i++) {
-            if (users[i] == user) {
-                return true;
-            }
-        }
-        return false;
     }
 
     // 商品情報
@@ -132,7 +140,7 @@ contract MarketApp {
         uint256 _price,
         string memory _googleDocID,
         string memory _ipfsHash
-    ) public {
+    ) public onlyUser isStopped {
         items[numItems].sellerAddr = msg.sender; // 出品者のEthアドレス
         items[numItems].seller = accounts[msg.sender].name; // 出品者名
         items[numItems].name = _name; // 商品名
@@ -176,9 +184,12 @@ contract MarketApp {
         require(!items[_numItems].receivement); // 受取前の商品か確認
 
         items[_numItems].receivement = true; // 受取済みにする
-        // 受取りが完了したら出品者に代金を送金する
 
-        items[_numItems].sellerAddr.transfer(items[_numItems].price);
+        uint256 money = (items[_numItems].price * 4) / 5; // 手数料20%が引かれたお金
+        bonus_eth = (items[_numItems].price * 1) / 5; // 手数料20%分をbonus_ethに格納
+
+        // 受取りが完了したら出品者に代金を送金する
+        items[_numItems].sellerAddr.transfer(money);
     }
 
     // 取引評価を行う
@@ -212,6 +223,80 @@ contract MarketApp {
         items[_numItems].buyerReputate = true; // 評価済みにする
         accounts[items[_numItems].buyerAddr].numTransactions++; // 購入者の取引回数の加算
         accounts[items[_numItems].buyerAddr].reputations += _reputate; // 購入者の評価の更新
+    }
+
+    // ================
+    // Eth還元キャンペーン
+    // ================
+
+    // eth還元キャンペーンにエントリーしたアカウント
+    struct get_eth_account {
+        address payable entryAddr; // エントリーしたアカウントのEthアドレス
+        string name; //名前
+        string email; //Emailアドレス
+    }
+
+    mapping(uint256 => get_eth_account) public get_eth_accounts;
+
+    // eth_getキャンペーンにエントリーする関数
+    function entry_get_eth() public onlyUser isStopped {
+        // 応募条件
+        require(!accounts[msg.sender].entryed);
+        require(accounts[msg.sender].numTransactions >= 1); // 取引回数が1以上
+
+        get_eth_accounts[total_entry].entryAddr = msg.sender; //
+        get_eth_accounts[total_entry].name = accounts[msg.sender].name; //
+        get_eth_accounts[total_entry].email = accounts[msg.sender].email; //
+        accounts[msg.sender].entryed = true;
+        total_entry++;
+    }
+
+    // アカウントの取引回数、エントリー確認を行う
+    function view_eth_acc(address user) public view returns (uint256, bool) {
+        uint256 _entry_condition1 = accounts[user].numTransactions;
+        bool _entry_condition2 = accounts[user].entryed;
+
+        return (_entry_condition1, _entry_condition2);
+    }
+
+    // 乱数生成
+    // function random() private view returns (uint256) {
+    //     return
+    //         uint256(
+    //             keccak256(abi.encodePacked(block.difficulty, now, msg.sender))
+    //         );
+    // }
+
+    // function randMod(uint _randNonce, uint _modulus) public view returns(uint) {
+    //     return uint(keccak256(abi.encodePacked(now, msg.sender, _randNonce))) % _modulus;
+    // }
+
+    // 乱数生成
+    function random() internal view returns (uint256) {
+        uint256 randnum = block.timestamp % total_entry;
+
+        return uint256(randnum);
+    }
+
+    // 当選者の選定とethの送金処理
+    function get_eth() public payable onlyOwner isStopped {
+        require(bonus_eth >= 1 ether);
+
+        uint256 idx = random();
+        get_eth_accounts[idx].entryAddr.transfer(bonus_eth);
+        bonus_eth = 0;
+        total_entry = 0;
+        entry_false();
+    }
+
+    // 全てのアカウントのエントリー状態をfalseにする
+    function entry_false() internal onlyOwner isStopped returns (uint256) {
+        for (uint256 i = 0; i < users.length; i++) {
+            address index = users[i];
+            if (accounts[index].entryed) {
+                accounts[index].entryed = false;
+            }
+        }
     }
 
     // ================
