@@ -114,11 +114,11 @@ class GetEth extends React.Component {
     return (
       <div id="geteth">
         <Row className="mx-4">
-          <Col md={{ span: 4, offset: 4 }} xs={{ span: 12 }} >
+          <Col xs={{ span: 12 }} className="text-center">
 
             <div className="my-5">
-              <h1 className="text-center">現在のEthの合計: {this.state.total_price}(Eth)</h1>
-              <p className="text-muted">1Ethに達すると抽選を行います。当選者には全てのEthが送金されます！！</p>
+              <h1>現在のEthの合計: {this.state.total_price}(Eth)</h1>
+              <p className="text-muted">1Ethに達すると抽選を行います。当選者には上記の全てのEthが送金されます。</p>
             </div>
 
             <h3>＜エントリー条件＞</h3>
@@ -127,7 +127,8 @@ class GetEth extends React.Component {
             <div>
               <Button variant="primary" type="submit" size="lg"
                 onClick={this.entry_button}
-                disabled={this.state.try_condition2}>
+                disabled={this.state.try_condition2}
+                className="my-4">
                 今すぐエントリー
               </Button>
               <p>現在の総エントリー数: {this.state.total_entry}人</p>
